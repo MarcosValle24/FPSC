@@ -12,6 +12,13 @@
 #include "InputActionValue.h"
 #include "ShooterTest.h"
 
+void AShooterTestCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	currentGun = GetWorld()->SpawnActor<AGun>(BGun);
+	currentGun->SetOwner(this);
+}
+
 AShooterTestCharacter::AShooterTestCharacter()
 {
 	// Set size for collision capsule
@@ -65,6 +72,8 @@ void AShooterTestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterTestCharacter::Look);
+	
+		EnhancedInputComponent->BindAction(shootAction,ETriggerEvent::Started,this, &AShooterTestCharacter::DoShoot);
 	}
 	else
 	{
@@ -130,4 +139,9 @@ void AShooterTestCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+void AShooterTestCharacter::DoShoot()
+{
+	currentGun->PullTrigger();
 }

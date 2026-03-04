@@ -31,6 +31,9 @@ void AShooterTestPlayerController::BeginPlay()
 		}
 
 	}
+	
+	hudWidget = CreateWidget<UHUDWidget>(this, hudClass);
+	hudWidget->AddToViewport();
 }
 
 void AShooterTestPlayerController::SetupInputComponent()
