@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Gun.generated.h"
 
 UCLASS()
@@ -25,11 +28,26 @@ public:
 	
 	void PullTrigger();
 	
+	void SetOwnerController(AController& c);
+	
 private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* rootComp;
 	
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* skeletalMeshComp;
-
+	
+	AController* ownerController;
+	
+	UPROPERTY(EditAnywhere)
+	float maxRange = 1000.0f;
+	
+	UPROPERTY(VisibleAnywhere)
+	UNiagaraComponent* flashParticle;
+	
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* impactParticle;
+	
+	UPROPERTY(EditAnywhere)
+	float bulletDamage = 10.0f;
 };

@@ -101,6 +101,16 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	AGun* currentGun;
 	
+	UFUNCTION()
+	void OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+	
+	UPROPERTY(EditAnywhere)
+	float maxHealth = 100.0f;
+	
+	float health;
+	UPROPERTY(BlueprintReadOnly)
+	bool isAlavie = true;
+	
 public:
 
 	/** Returns CameraBoom subobject **/

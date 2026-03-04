@@ -15,12 +15,15 @@ AGun::AGun()
 	skeletalMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>("SkeletalMesh");
 	skeletalMeshComp->SetupAttachment(rootComp);
 	
+	flashParticle = CreateDefaultSubobject<UNiagaraComponent>("FlashParticle");
+	flashParticle->SetupAttachment(skeletalMeshComp);
 }
 
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {
 	Super::BeginPlay();
+	flashParticle->Deactivate();
 	
 }
 
@@ -33,7 +36,38 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::PullTrigger()
 {
-	GEngine->AddOnScreenDebugMessage(1,15,FColor::Red,TEXT("PullTrigger"));
+	flashParticle->Activate(true);
+	if (ownerController)
+	{
+		FVector viewPoint;
+		FRotator vewRot;
+		ownerController->GetPlayerViewPoint(viewPoint, vewRot);
+		
+		//DrawDebugCamera(GetWorld(),viewPoint,vewRot,90,2,FColor::Red,true);
+		FVector endPoint = viewPoint + vewRot.Vector()*maxRange;
+		
+		FHitResult hit;
+		FCollisionQueryParams params;
+		params.AddIgnoredActor(this);
+		params.AddIgnoredActor(GetOwner());
+		
+		bool isHit = GetWorld()->LineTraceSingleByChannel(hit,viewPoint,endPoint,ECC_GameTraceChannel1,params);
+		if (isHit)
+		{
+			//DrawDebugSphere(GetWorld(),hit.ImpactPoint,5,20,FColor::Red,true);		
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),impactParticle,hit.ImpactPoint,hit.ImpactPoint.Rotation());
+			AActor* hitActor = hit.GetActor();
+			if (hitActor)
+			{
+				UGameplayStatics::ApplyDamage(hitActor,bulletDamage,ownerController,this,UDamageType::StaticClass());
+			}
+		}
+	}
+}
+
+void AGun::SetOwnerController(AController& c)
+{
+	ownerController = &c;
 }
 
 

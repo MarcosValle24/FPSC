@@ -15,8 +15,16 @@
 void AShooterTestCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	OnTakeAnyDamage.AddDynamic(this,&AShooterTestCharacter::OnDamageTaken);
+	
+	health = maxHealth;
+	
+	GetMesh()->HideBoneByName("weapon_r",EPhysBodyOp::PBO_None);
 	currentGun = GetWorld()->SpawnActor<AGun>(BGun);
 	currentGun->SetOwner(this);
+	currentGun->AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform,TEXT("WeaponSocket"));
+	currentGun->SetOwnerController(*GetController());
+
 }
 
 AShooterTestCharacter::AShooterTestCharacter()
@@ -144,4 +152,20 @@ void AShooterTestCharacter::DoJumpEnd()
 void AShooterTestCharacter::DoShoot()
 {
 	currentGun->PullTrigger();
+}
+
+void AShooterTestCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+	class AController* InstigatedBy, AActor* DamageCauser)
+{
+	if (isAlavie)
+	{
+		health -= Damage;
+		GEngine->AddOnScreenDebugMessage(1,2,FColor::Red,FString::Printf(TEXT("Damage Taken %f"), health));
+		if (health <= 0)
+		{
+			isAlavie = false;
+			health = 0.0f;
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
 }
