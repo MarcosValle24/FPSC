@@ -15,9 +15,8 @@ void AShooterTestGameMode::BeginPlay()
 	
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(),AEnemyAI::StaticClass(),shooterAIActors);
 	
-	for (auto i = 0; i < shooterAIActors.Num();i++)
+	for (AActor* temp : shooterAIActors)
 	{
-		AActor* temp =shooterAIActors[i];
 		Cast<AEnemyAI>(temp)->StartbehaiviourTree(player);
 	}
 		
