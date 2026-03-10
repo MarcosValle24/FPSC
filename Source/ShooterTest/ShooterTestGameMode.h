@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "ShooterTestCharacter.h"
+#include "EnemyAI.h"
 #include "ShooterTestGameMode.generated.h"
 
 /**
@@ -18,6 +21,13 @@ public:
 	
 	/** Constructor */
 	AShooterTestGameMode();
+	
+protected:
+	virtual  void BeginPlay() override;
+	
+private:
+	AShooterTestCharacter* player;
+	TArray<AActor*> shooterAIActors;
 };
 
 
