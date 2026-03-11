@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/ProgressBar.h"
 #include "HUDWidget.generated.h"
 
 /**
@@ -14,4 +16,9 @@ class SHOOTERTEST_API UHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditAnywhere,meta= (BindWidget))
+	UProgressBar* HealthBar;
+	
+	void SetPorcent(float value);
 };

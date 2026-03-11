@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "ShooterTest.h"
+#include "ShooterTestPlayerController.h"
 
 void AShooterTestCharacter::BeginPlay()
 {
@@ -18,7 +19,7 @@ void AShooterTestCharacter::BeginPlay()
 	OnTakeAnyDamage.AddDynamic(this,&AShooterTestCharacter::OnDamageTaken);
 	
 	health = maxHealth;
-	
+	UpdateHUD();
 	GetMesh()->HideBoneByName("weapon_r",EPhysBodyOp::PBO_None);
 	currentGun = GetWorld()->SpawnActor<AGun>(BGun);
 	currentGun->SetOwner(this);
@@ -160,12 +161,22 @@ void AShooterTestCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, co
 	if (isAlavie)
 	{
 		health -= Damage;
-		GEngine->AddOnScreenDebugMessage(1,2,FColor::Red,FString::Printf(TEXT("Damage Taken %f"), health));
+		//GEngine->AddOnScreenDebugMessage(1,2,FColor::Red,FString::Printf(TEXT("Damage Taken %f"), health));
+		UpdateHUD();
 		if (health <= 0)
 		{
 			isAlavie = false;
 			health = 0.0f;
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
+	}
+}
+
+void AShooterTestCharacter::UpdateHUD()
+{
+	AShooterTestPlayerController* playerController = Cast<AShooterTestPlayerController>(GetController());
+	if (playerController)
+	{
+		playerController->hudWidget->SetPorcent(health/maxHealth);
 	}
 }

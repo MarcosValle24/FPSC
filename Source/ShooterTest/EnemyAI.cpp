@@ -41,14 +41,6 @@ void AEnemyAI::StartbehaiviourTree(AShooterTestCharacter* character)
 				GetBlackboardComponent()->SetValueAsVector("StartLocation",myCharacter->GetActorLocation());
 				GetBlackboardComponent()->SetValueAsVector("PlayerLocation",character->GetActorLocation());
 			}
-			else
-			{
-				GEngine->AddOnScreenDebugMessage(1,5,FColor::Red,TEXT("NoBlackBoard"));
-			}
 		}
-		
-	
-		
 	}
-	
 }

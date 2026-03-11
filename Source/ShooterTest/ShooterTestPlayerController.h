@@ -49,7 +49,7 @@ protected:
 
 	/** Returns true if the player should use UMG touch controls */
 	bool ShouldUseTouchControls() const;
-	
+public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UHUDWidget> hudClass;
 	

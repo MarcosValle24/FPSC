@@ -3,6 +3,8 @@
 
 #include "Gun.h"
 
+#include "AudioMixerTrace.h"
+
 // Sets default values
 AGun::AGun()
 {
@@ -37,6 +39,7 @@ void AGun::Tick(float DeltaTime)
 void AGun::PullTrigger()
 {
 	flashParticle->Activate(true);
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(),shootSound,GetActorLocation());
 	if (ownerController)
 	{
 		FVector viewPoint;
@@ -56,10 +59,12 @@ void AGun::PullTrigger()
 		{
 			//DrawDebugSphere(GetWorld(),hit.ImpactPoint,5,20,FColor::Red,true);		
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),impactParticle,hit.ImpactPoint,hit.ImpactPoint.Rotation());
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(),impactSound,GetActorLocation());
 			AActor* hitActor = hit.GetActor();
 			if (hitActor)
 			{
 				UGameplayStatics::ApplyDamage(hitActor,bulletDamage,ownerController,this,UDamageType::StaticClass());
+			
 			}
 		}
 	}

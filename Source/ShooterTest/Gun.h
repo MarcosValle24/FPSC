@@ -50,4 +50,10 @@ private:
 	
 	UPROPERTY(EditAnywhere)
 	float bulletDamage = 10.0f;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* shootSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* impactSound;
 };
