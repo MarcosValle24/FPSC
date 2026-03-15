@@ -19,7 +19,9 @@ class SHOOTERTEST_API AEnemyAI : public AAIController
 	
 private:
 	AShooterTestCharacter* playerCharacter;
+	
 	AShooterTestCharacter* myCharacter;
+	
 	UPROPERTY(EditAnywhere)
 	UBehaviorTree* enemyTree;
 	
