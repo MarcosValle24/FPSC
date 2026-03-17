@@ -32,6 +32,8 @@ protected:
 public:
 	void StartbehaiviourTree(AShooterTestCharacter* character);
 	
+	void DeadEnemy();
+	
 	AShooterTestCharacter* GetPlayerCharacter() const {return playerCharacter;};
 	
 	AShooterTestCharacter* GetMyCharacter() const {return myCharacter;};

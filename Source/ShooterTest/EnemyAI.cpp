@@ -6,23 +6,16 @@
 void AEnemyAI::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	/*
-	currentPlayer = UGameplayStatics::GetPlayerPawn(GetWorld(),0);
-	SetFocus(currentPlayer);
-	*/
 }
 
 void AEnemyAI::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-/*	if (LineOfSightTo(currentPlayer))
-		MoveToActor(currentPlayer,200.0f);
-	else
+	if (myCharacter && !myCharacter->isAlavie)
 	{
-		ClearFocus(EAIFocusPriority::Gameplay);
-		StopMovement();
-	}*/
+		FTimerHandle deadTimerHandle;
+		GetWorldTimerManager().SetTimer(deadTimerHandle,this,&AEnemyAI::DeadEnemy,3);
+	}
 }
 
 void AEnemyAI::StartbehaiviourTree(AShooterTestCharacter* character)
@@ -43,4 +36,9 @@ void AEnemyAI::StartbehaiviourTree(AShooterTestCharacter* character)
 			}
 		}
 	}
+}
+
+void AEnemyAI::DeadEnemy()
+{
+	Destroy(GetOwner());
 }
