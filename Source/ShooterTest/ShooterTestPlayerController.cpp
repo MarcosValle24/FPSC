@@ -32,6 +32,7 @@ void AShooterTestPlayerController::BeginPlay()
 
 	}
 	
+	//Creates the HUD of the player and added to the viewport
 	hudWidget = CreateWidget<UHUDWidget>(this, hudClass);
 	hudWidget->AddToViewport();
 }

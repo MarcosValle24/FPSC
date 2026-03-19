@@ -20,8 +20,8 @@ public:
 	UPROPERTY(EditAnywhere,meta= (BindWidget))
 	UProgressBar* HealthBar;
 	
-	UPROPERTY(EditAnywhere,meta= (BindWidget))
-	UTextRenderComponent* textInfo;
+	//UPROPERTY(EditAnywhere,meta= (BindWidget))
+	//UTextRenderComponent* textInfo;
 	
 	void SetPorcent(float value);
 };

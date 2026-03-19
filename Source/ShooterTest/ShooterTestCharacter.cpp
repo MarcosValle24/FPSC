@@ -25,6 +25,7 @@ void AShooterTestCharacter::BeginPlay()
 	
 	UpdateHUD();
 	
+	//Set the bone of the mesh to snap the current weapon
 	GetMesh()->HideBoneByName("weapon_r",EPhysBodyOp::PBO_None);
 	currentGun = GetWorld()->SpawnActor<AGun>(BGun);
 	currentGun->SetOwner(this);
@@ -48,8 +49,7 @@ AShooterTestCharacter::AShooterTestCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 
-	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
-	// instead of recompiling to adjust them
+	//Set the base values of the character component
 	GetCharacterMovement()->JumpZVelocity = 500.f;
 	GetCharacterMovement()->AirControl = 0.35f;
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
@@ -86,6 +86,7 @@ void AShooterTestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterTestCharacter::Look);
 	
+		//Shooting
 		EnhancedInputComponent->BindAction(shootAction,ETriggerEvent::Started,this, &AShooterTestCharacter::DoShoot);
 	}
 	else
@@ -160,6 +161,7 @@ void AShooterTestCharacter::DoShoot()
 	currentGun->PullTrigger();
 }
 
+//UE function to make damage at AActor
 void AShooterTestCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 	class AController* InstigatedBy, AActor* DamageCauser)
 {
@@ -179,6 +181,7 @@ void AShooterTestCharacter::OnDamageTaken(AActor* DamagedActor, float Damage, co
 
 void AShooterTestCharacter::UpdateHUD()
 {
+	//Get the controller of the player for use of de HUD
 	AShooterTestPlayerController* playerController = Cast<AShooterTestPlayerController>(GetController());
 	if (playerController)
 	{

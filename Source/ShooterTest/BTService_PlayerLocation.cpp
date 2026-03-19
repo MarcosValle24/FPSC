@@ -1,10 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+// Tasks are actionable behaviors (do this) that end, 
+// while Services are continuous updates (check this periodically) that run in the background
 
 
 #include "BTService_PlayerLocation.h"
 
 UBTService_PlayerLocation::UBTService_PlayerLocation()
 {
+	//Create a name to find in the Behavior tree
 	NodeName = TEXT("Update PlayerLocation");
 }
 
