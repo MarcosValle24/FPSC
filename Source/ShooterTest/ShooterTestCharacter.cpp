@@ -13,13 +13,18 @@
 #include "ShooterTest.h"
 #include "ShooterTestPlayerController.h"
 
+
 void AShooterTestCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	//Create delegate to bind the DamageTaken() function 
 	OnTakeAnyDamage.AddDynamic(this,&AShooterTestCharacter::OnDamageTaken);
 	
+	//Set the health value to maxHealth, the maxhealth can be modiffy in editor
 	health = maxHealth;
+	
 	UpdateHUD();
+	
 	GetMesh()->HideBoneByName("weapon_r",EPhysBodyOp::PBO_None);
 	currentGun = GetWorld()->SpawnActor<AGun>(BGun);
 	currentGun->SetOwner(this);
@@ -28,6 +33,7 @@ void AShooterTestCharacter::BeginPlay()
 
 }
 
+//The constructor is called when the engine compile. If presents error is always here
 AShooterTestCharacter::AShooterTestCharacter()
 {
 	// Set size for collision capsule
@@ -61,9 +67,7 @@ AShooterTestCharacter::AShooterTestCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	
 }
 
 void AShooterTestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -152,6 +156,7 @@ void AShooterTestCharacter::DoJumpEnd()
 
 void AShooterTestCharacter::DoShoot()
 {
+	//Crate a conection with the current weapon and call the function of action
 	currentGun->PullTrigger();
 }
 
